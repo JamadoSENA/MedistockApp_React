@@ -16,6 +16,7 @@ import ProductForm from './Create/CreateProduct.js';
 import AppointmentForm from './Create/CreateAppointment.js';
 import DateForm from './Create/CreateDate.js';
 import SignInSide from './LogIn/LogIn.js';
+import LandingPage from './LandingPage/LandingPage.js';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/appointments/create" element={<AppointmentForm />} />
           <Route path="/dates/create" element={<DateForm />} />
           <Route path="/login" element={<SignInSide />} />
+          <Route path="/landingPage" element={<LandingPage />} />
         </Routes>
       </Router>
     </div>
