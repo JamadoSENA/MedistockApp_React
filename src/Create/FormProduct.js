@@ -16,7 +16,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
-
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
 
 const FormGrid = styled('div')(() => ({
@@ -229,7 +229,7 @@ export default function ProductForm() {
           </Box>
           <ButtonGroup color="success" variant="text" aria-label="Basic button group">
             <Button color="success">Guardar</Button>
-            <Button color="success">Cancelar</Button>
+            <Button color="success"  component={Link} to="/Products">Cancelar</Button>
           </ButtonGroup>
         </Box>
       )}

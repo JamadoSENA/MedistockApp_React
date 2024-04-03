@@ -3,9 +3,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
-import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -14,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import FaceIcon from '@mui/icons-material/Face';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
 
 const FormGrid = styled('div')(() => ({
@@ -279,7 +277,7 @@ export default function UserForm() {
           </Box>
           <ButtonGroup color="success" variant="text" aria-label="Basic button group">
             <Button color="success">Guardar</Button>
-            <Button color="success">Cancelar</Button>
+            <Button color="success" component={Link} to="/Users">Cancelar</Button>
           </ButtonGroup>
         </Box>
       )}

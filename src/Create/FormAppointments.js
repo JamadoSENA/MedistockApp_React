@@ -17,8 +17,7 @@ import Button from '@mui/material/Button';
 import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-
-
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
 
 const FormGrid = styled('div')(() => ({
@@ -187,7 +186,7 @@ export default function AppointmentForm() {
           </Box>
           <ButtonGroup color="success" variant="text" aria-label="Basic button group">
             <Button color="success">Guardar</Button>
-            <Button color="success">Cancelar</Button>
+            <Button color="success"  component={Link} to="/Appointments">Cancelar</Button>
           </ButtonGroup>
         </Box>
       )}
