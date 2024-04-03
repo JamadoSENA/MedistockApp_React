@@ -18,6 +18,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems, secondaryListItems } from '../Dashboards/listItems';
 import { Route, Routes } from 'react-router-dom';
 import UserForm from './FormUser';
+import SupplierForm from './FormSupplier';
+import PacientForm from './FormPacient';
 import ProductForm from './FormProduct';
 
 
@@ -129,7 +131,7 @@ export default function FormProduct() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <UserForm />
+                  <ProductForm />
                 </Paper>
               </Grid>
             </Grid>

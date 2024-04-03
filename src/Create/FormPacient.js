@@ -5,7 +5,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import PeopleIcon from '@mui/icons-material/People';
 import FormLabel from '@mui/material/FormLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -14,6 +14,8 @@ import Typography from '@mui/material/Typography';
 import FaceIcon from '@mui/icons-material/Face';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
+import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
+
 
 import { styled } from '@mui/system';
 
@@ -22,7 +24,7 @@ const FormGrid = styled('div')(() => ({
   flexDirection: 'column',
 }));
 
-export default function UserForm() {
+export default function PacientForm() {
   const [paymentType, setPaymentType] = React.useState('creditCard');
   const [cardNumber, setCardNumber] = React.useState('');
   const [cvv, setCvv] = React.useState('');
@@ -86,8 +88,8 @@ export default function UserForm() {
           >
             <CardActionArea onClick={() => setPaymentType('creditCard')}>
               <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <FaceIcon color="dark" fontSize="small" />
-                <Typography fontWeight="medium">Usuario</Typography>
+                <AirlineSeatFlatIcon color="dark" fontSize="small" />
+                <Typography fontWeight="medium">Paciente</Typography>
               </CardContent>
             </CardActionArea>
           </Card>
@@ -107,7 +109,7 @@ export default function UserForm() {
               flexDirection: 'column',
               justifyContent: 'space-between',
               p: 3,
-              height: { xs: 350, sm: 400, md: 530 },
+              height: { xs: 350, sm: 400, md: 550 },
               width: '100%',
               borderRadius: '20px',
               border: '0.2px solid ',
@@ -117,7 +119,7 @@ export default function UserForm() {
             }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="subtitle2">Nuevo Usuario</Typography>
+              <Typography variant="subtitle2">Nuevo Paciente</Typography>
             </Box>
             <Box
               sx={{
@@ -140,17 +142,15 @@ export default function UserForm() {
                   onChange={handleCardNumberChange}
                 />
               </FormGrid>
-              <FormGrid sx={{ maxWidth: '20%' }}>
-                <FormLabel htmlFor="contrasenia" required>
-                  Contraseña
+              <FormGrid sx={{ flexGrow: 1 }}>
+                <FormLabel htmlFor="card-name" required>
+                  Tipo de Documento
                 </FormLabel>
                 <OutlinedInput
-                  id="contrasenia"
-                  autoComplete="contrasenia"
-                  placeholder="Contraseña"
+                  id="card-name"
+                  autoComplete="card-name"
+                  placeholder="(CC, TI, NUIP)"
                   required
-                  value={cvv}
-                  onChange={handleCvvChange}
                 />
               </FormGrid>
             </Box>
@@ -188,6 +188,39 @@ export default function UserForm() {
                   required
                   value={expirationDate}
                   onChange={handleExpirationDateChange}
+                />
+              </FormGrid>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%',
+                gap: 2
+              }}
+            >
+              <FormGrid sx={{ flexGrow: 1 }}>
+                <FormLabel htmlFor="edad" required>
+                  Edad
+                </FormLabel>
+                <OutlinedInput
+                  id="edad"
+                  autoComplete="edad"
+                  placeholder="(Años)"
+                  required
+                  value={cardNumber}
+                  onChange={handleCardNumberChange}
+                />
+              </FormGrid>
+              <FormGrid sx={{ flexGrow: 1 }}>
+                <FormLabel htmlFor="card-name" required>
+                  Genero
+                </FormLabel>
+                <OutlinedInput
+                  id="card-name"
+                  autoComplete="card-name"
+                  placeholder="(Masculino, Femenino)"
+                  required
                 />
               </FormGrid>
             </Box>
@@ -258,21 +291,6 @@ export default function UserForm() {
                   autoComplete="card-name"
                   placeholder="Correo electronico"
                   required
-                />
-              </FormGrid>
-              </Box>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-            <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="FkId_Proveedor" required>
-                  ID Rol
-                </FormLabel>
-                <OutlinedInput
-                  id="FkId_Proveedor"
-                  autoComplete="FkId_Proveedor"
-                  placeholder="(ID)"
-                  required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
                 />
               </FormGrid>
               </Box>

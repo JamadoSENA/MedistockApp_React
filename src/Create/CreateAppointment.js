@@ -18,7 +18,10 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems, secondaryListItems } from '../Dashboards/listItems';
 import { Route, Routes } from 'react-router-dom';
 import UserForm from './FormUser';
+import SupplierForm from './FormSupplier';
+import PacientForm from './FormPacient';
 import ProductForm from './FormProduct';
+import AppointmentForm from './FormAppointments';
 
 
 function Copyright(props) {
@@ -82,7 +85,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const defaultTheme = createTheme();
 
-export default function FormProduct() {
+export default function FormAppointment() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -129,7 +132,7 @@ export default function FormProduct() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <UserForm />
+                  <AppointmentForm />
                 </Paper>
               </Grid>
             </Grid>

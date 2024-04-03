@@ -17,8 +17,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems, secondaryListItems } from '../Dashboards/listItems';
 import { Route, Routes } from 'react-router-dom';
-import UserForm from './FormUser';
-import ProductForm from './FormProduct';
+import TodayIcon from '@mui/icons-material/Today';
+import DateForm from './FormDate';
 
 
 function Copyright(props) {
@@ -82,7 +82,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const defaultTheme = createTheme();
 
-export default function FormProduct() {
+export default function FormDate() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -129,7 +129,7 @@ export default function FormProduct() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <UserForm />
+                  <DateForm />
                 </Paper>
               </Grid>
             </Grid>

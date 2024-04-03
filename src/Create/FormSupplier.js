@@ -5,7 +5,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import PeopleIcon from '@mui/icons-material/People';
 import FormLabel from '@mui/material/FormLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -22,7 +22,7 @@ const FormGrid = styled('div')(() => ({
   flexDirection: 'column',
 }));
 
-export default function UserForm() {
+export default function SupplierForm() {
   const [paymentType, setPaymentType] = React.useState('creditCard');
   const [cardNumber, setCardNumber] = React.useState('');
   const [cvv, setCvv] = React.useState('');
@@ -86,8 +86,8 @@ export default function UserForm() {
           >
             <CardActionArea onClick={() => setPaymentType('creditCard')}>
               <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <FaceIcon color="dark" fontSize="small" />
-                <Typography fontWeight="medium">Usuario</Typography>
+                <PeopleIcon color="dark" fontSize="small" />
+                <Typography fontWeight="medium">Proveedor</Typography>
               </CardContent>
             </CardActionArea>
           </Card>
@@ -107,7 +107,7 @@ export default function UserForm() {
               flexDirection: 'column',
               justifyContent: 'space-between',
               p: 3,
-              height: { xs: 350, sm: 400, md: 530 },
+              height: { xs: 350, sm: 400, md: 375 },
               width: '100%',
               borderRadius: '20px',
               border: '0.2px solid ',
@@ -117,7 +117,7 @@ export default function UserForm() {
             }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="subtitle2">Nuevo Usuario</Typography>
+              <Typography variant="subtitle2">Nuevo Proveedor</Typography>
             </Box>
             <Box
               sx={{
@@ -128,33 +128,18 @@ export default function UserForm() {
               }}
             >
               <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="documento" required>
-                  Documento
+                <FormLabel htmlFor="NIT" required>
+                  NIT
                 </FormLabel>
                 <OutlinedInput
-                  id="documento"
-                  autoComplete="documento"
-                  placeholder="Numero de documento"
+                  id="nit"
+                  autoComplete="nit"
+                  placeholder="NIT"
                   required
                   value={cardNumber}
                   onChange={handleCardNumberChange}
                 />
               </FormGrid>
-              <FormGrid sx={{ maxWidth: '20%' }}>
-                <FormLabel htmlFor="contrasenia" required>
-                  Contraseña
-                </FormLabel>
-                <OutlinedInput
-                  id="contrasenia"
-                  autoComplete="contrasenia"
-                  placeholder="Contraseña"
-                  required
-                  value={cvv}
-                  onChange={handleCvvChange}
-                />
-              </FormGrid>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
               <FormGrid sx={{ flexGrow: 1 }}>
                 <FormLabel htmlFor="card-name" required>
                   Nombre
@@ -164,30 +149,6 @@ export default function UserForm() {
                   autoComplete="card-name"
                   placeholder="Nombre"
                   required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Apellido
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Apellido"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-expiration" required>
-                  Fecha de Nacimiento
-                </FormLabel>
-                <OutlinedInput
-                  id="card-expiration"
-                  autoComplete="card-expiration"
-                  placeholder="DD/MM/AAAA"
-                  required
-                  value={expirationDate}
-                  onChange={handleExpirationDateChange}
                 />
               </FormGrid>
             </Box>
@@ -227,17 +188,6 @@ export default function UserForm() {
               </FormGrid>
               </Box>
               <Box sx={{ display: 'flex', gap: 2 }}>
-            <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                Profesion
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Profesion"
-                  required
-                />
-              </FormGrid>
               <FormGrid sx={{ flexGrow: 1 }}>
                 <FormLabel htmlFor="card-name" required>
                 Telefono
@@ -258,21 +208,6 @@ export default function UserForm() {
                   autoComplete="card-name"
                   placeholder="Correo electronico"
                   required
-                />
-              </FormGrid>
-              </Box>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-            <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="FkId_Proveedor" required>
-                  ID Rol
-                </FormLabel>
-                <OutlinedInput
-                  id="FkId_Proveedor"
-                  autoComplete="FkId_Proveedor"
-                  placeholder="(ID)"
-                  required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
                 />
               </FormGrid>
               </Box>

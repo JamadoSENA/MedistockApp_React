@@ -10,6 +10,7 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Title from './Title.js';
+import { Link } from 'react-router-dom';
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -62,10 +63,10 @@ function preventDefault(event) {
 export default function Appointments() {
   return (
     <React.Fragment>
-      <Title style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
+      <Title style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         Dashboard Agendamientos
       </Title>
-      <Fab size="small" color="success" aria-label="add" style={{ marginBottom: '10px' }}>
+      <Fab size="small" color="success" aria-label="add" style={{ marginBottom: '10px' }} component={Link} to="/appointments/create" >
           <AddIcon />
       </Fab>
       <Table size="small">
