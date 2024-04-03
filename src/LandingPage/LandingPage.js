@@ -12,8 +12,7 @@ import Main from './Main';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 import post1 from './blog-post.1.md';
-import post2 from './blog-post.2.md';
-import post3 from './blog-post.3.md';
+
 
 const sections = [
   { title: 'Technology', url: '#' },
@@ -32,7 +31,7 @@ const mainFeaturedPost = {
   title: '¡Bienvenido a MediStock!',
   description:
     "Administrar un inventario médico de forma eficiente y precisa es fundamental para cualquier institución de salud. Nuestra aplicación, MediStock, te ofrece la solución ideal para llevar un control exhaustivo de tus suministros.",
-  image: 'https://source.unsplash.com/random?wallpapers',
+  image: 'https://images.pexels.com/photos/3786166/pexels-photo-3786166.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   imageText: 'main image description'
 };
 
@@ -42,7 +41,7 @@ const featuredPosts = [
     date: 'Abril 05',
     description:
       'Medistock es una plataforma innovadora que gestiona eficientemente el inventario médico. Facilita la coordinación entre proveedores y centros de salud, optimizando el suministro de equipos y medicamentos esenciales.',
-    image: 'https://source.unsplash.com/random?wallpapers',
+    image: 'https://images.pexels.com/photos/2678059/pexels-photo-2678059.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     imageLabel: 'Image Text',
   },
   {
@@ -50,12 +49,12 @@ const featuredPosts = [
     date: 'Abril 05',
     description:
       'Con Medistock, los usuarios pueden realizar un seguimiento en tiempo real de los niveles de inventario, evitando escasez o excesos. La plataforma garantiza una distribución equitativa.',
-    image: 'https://source.unsplash.com/random?wallpapers',
+    image: 'https://images.pexels.com/photos/4197562/pexels-photo-4197562.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     imageLabel: 'Image Text',
   },
 ];
 
-const posts = [post1, post2, post3];
+const posts = [post1];
 
 const sidebar = {
   title: 'Integración y Facilidad de Uso',

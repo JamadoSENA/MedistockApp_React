@@ -21,7 +21,7 @@ function FeaturedPost(props) {
             <Typography variant="subtitle1" color="text.secondary">
               {post.date}
             </Typography>
-            <Typography variant="subtitle1" paragraph>
+            <Typography variant="subtitle1" paragraph sx={{textAlign: 'justify',}}>
               {post.description}
             </Typography>
           </CardContent>

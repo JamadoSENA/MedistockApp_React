@@ -15,9 +15,9 @@ function Sidebar(props) {
         <Typography variant="h6" gutterBottom>
           {title}
         </Typography>
-        <Typography>{description}</Typography>
+        <Typography  sx={{textAlign: 'justify',}}>{description}</Typography>
       </Paper>
-      <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
+      <Typography variant="h6" gutterBottom sx={{ mt: 3, textAlign: 'justify', }}>
         Funcionalidades
       </Typography>
       {social.map((network) => (
@@ -28,7 +28,7 @@ function Sidebar(props) {
           key={network.name}
           sx={{ mb: 0.5 }}
         >
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack direction="row" spacing={1} alignItems="justify">
             <network.icon />
             <span>{network.name}</span>
           </Stack>
