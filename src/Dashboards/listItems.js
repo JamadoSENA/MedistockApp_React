@@ -57,7 +57,7 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <React.Fragment>
-    <ListSubheader component="div" inset>Cuenta</ListSubheader>
+    <ListSubheader component="div"inset>Cuenta</ListSubheader>
     <ListItemButton>
       <ListItemIcon>
         <AccountCircleIcon />

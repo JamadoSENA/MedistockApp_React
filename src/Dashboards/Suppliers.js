@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Table from '@mui/material/Table';
@@ -10,57 +11,38 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Title from './Title.js';
+import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(
-    0,
-    'ID-001',
-    'Annie',
-    'Hastur',
-    'annie@example.com',
-  ),
-  createData(
-    1,
-    'ID-002',
-    'Jinx',
-    'Blabla',
-    'jinx@example.com',
-  ),
-  createData(
-    2,
-    'ID-003',
-    'Lux',
-    'Cerulean',
-    'lux@example.com',
-  ),
-  createData(
-    3,
-    'ID-004',
-    'Garen',
-    'Demacia',
-    'garen@example.com',
-  ),
-  createData(
-    4,
-    'ID-005',
-    'Ahri',
-    'Charm',
-    'ahri@example.com',
-  ),
-];
-
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 export default function Suppliers() {
+  const [ListProveedores, setListProveedores] = useState([]);
+
+    useEffect(() => {
+        getProveedores();
+    }, []);
+
+    //GET ALL SUPPLIERS
+    const getProveedores = () => {
+        axios.get("http://localhost:8086/api/proveedor/all")
+            .then((response) => {
+                setListProveedores(response.data.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+    //GET ALL SUPPLIERS
+
+
+    //DELETE SUPPLIERS
+    const deleteProveedor = async (idProveedor) => {
+        await axios.delete(`http://localhost:8086/api/proveedor/delete/${idProveedor}`)
+        getProveedores()
+    }
+    //DELETE SUPPLIERS
+
   return (
     <React.Fragment>
       <Title style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
@@ -69,6 +51,7 @@ export default function Suppliers() {
       <Fab size="small" color="success" aria-label="add" style={{ marginBottom: '10px' }} component={Link} to="/suppliers/create" >
           <AddIcon />
       </Fab>
+      <Box sx={{ height: 400, width: '100%' }}>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -80,20 +63,21 @@ export default function Suppliers() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
+         {ListProveedores.map((proveedor, index) => (
+            <TableRow key={index}>
+              <TableCell>{proveedor.nit}</TableCell>
+              <TableCell>{proveedor.nombre}</TableCell>
+              <TableCell>{proveedor.telefono}</TableCell>
+              <TableCell>{proveedor.correo}</TableCell>
               <TableCell align="center">
                <Fab color="success" aria-label="edit"><EditIcon /></Fab>
-               <IconButton aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
+               <IconButton onClick={() => deleteProveedor (proveedor.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      </Box>
     </React.Fragment>
   );
 }

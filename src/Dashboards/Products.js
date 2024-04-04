@@ -11,59 +11,37 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Title from './Title.js';
 import { Link } from 'react-router-dom';
-import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(
-    0,
-    'ID-001',
-    'Annie',
-    'Hastur',
-    'annie@example.com',
-  ),
-  createData(
-    1,
-    'ID-002',
-    'Jinx',
-    'Blabla',
-    'jinx@example.com',
-  ),
-  createData(
-    2,
-    'ID-003',
-    'Lux',
-    'Cerulean',
-    'lux@example.com',
-  ),
-  createData(
-    3,
-    'ID-004',
-    'Garen',
-    'Demacia',
-    'garen@example.com',
-  ),
-  createData(
-    4,
-    'ID-005',
-    'Ahri',
-    'Charm',
-    'ahri@example.com',
-  ),
-];
-
-
-function preventDefault(event) {
-  event.preventDefault();
-}
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 export default function Products() {
+  const [ListProductos, setListProductos] = useState([]);
+
+  useEffect(() => {
+      getProductos();
+  }, []);
+
+  //GET ALL PRODUCTS
+  const getProductos = () => {
+      axios.get("http://localhost:8086/api/producto/all")
+          .then((response) => {
+              setListProductos(response.data.data);
+          })
+          .catch((e) => {
+              console.log(e);
+          });
+  };
+  //GET ALL PRODUCTS
+
+
+  //DELETE PRODUCTS
+  const deleteProducto = async (idProducto) => {
+      await axios.delete(`http://localhost:8086/api/producto/delete/${idProducto}`)
+      getProductos()
+  }
+  //DELETE PRODUCTS
+
   return (
     <React.Fragment>
       <Title style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
@@ -84,15 +62,15 @@ export default function Products() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
+          {ListProductos.map((producto, index) => (
+            <TableRow key={index}>
+              <TableCell>{producto.nombre}</TableCell>
+              <TableCell>{producto.cantidad}</TableCell>
+              <TableCell>{producto.estado}</TableCell>
+              <TableCell>{producto.fechaCaducidad}</TableCell>
               <TableCell align="center">
                <Fab color="success" aria-label="edit"><EditIcon /></Fab>
-               <IconButton aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
+               <IconButton  onClick={() => deleteProducto (producto.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>
           ))}

@@ -10,57 +10,38 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Title from './Title.js';
+import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(
-    0,
-    'ID-001',
-    'Annie',
-    'Hastur',
-    'annie@example.com',
-  ),
-  createData(
-    1,
-    'ID-002',
-    'Jinx',
-    'Blabla',
-    'jinx@example.com',
-  ),
-  createData(
-    2,
-    'ID-003',
-    'Lux',
-    'Cerulean',
-    'lux@example.com',
-  ),
-  createData(
-    3,
-    'ID-004',
-    'Garen',
-    'Demacia',
-    'garen@example.com',
-  ),
-  createData(
-    4,
-    'ID-005',
-    'Ahri',
-    'Charm',
-    'ahri@example.com',
-  ),
-];
-
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 export default function Appointments() {
+  const [ListAgendamientos, setListAgendamientos] = useState([]);
+
+    useEffect(() => {
+        getAgendamientos();
+    }, []);
+
+    //GET ALL SCHEDULINGS
+    const getAgendamientos = () => {
+        axios.get("http://localhost:8086/api/agendamiento/all")
+            .then((response) => {
+                setListAgendamientos(response.data.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+    //GET ALL SCHEDULINGS
+
+
+    //DELETE SCHEDULINGS
+    const deleteAgendamiento = async (idAgendamiento) => {
+        await axios.delete(`http://localhost:8086/api/agendamiento/delete/${idAgendamiento}`)
+        getAgendamientos()
+    };
+    //DELETE SCHEDULINGS
   return (
     <React.Fragment>
       <Title style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -69,6 +50,7 @@ export default function Appointments() {
       <Fab size="small" color="success" aria-label="add" style={{ marginBottom: '10px' }} component={Link} to="/appointments/create" >
           <AddIcon />
       </Fab>
+      <Box sx={{ height: 400, width: '100%' }}>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -80,20 +62,21 @@ export default function Appointments() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
+        {ListAgendamientos.map((agendamiento, index) => (
+            <TableRow key={index}>
+              <TableCell>{agendamiento.fecha}</TableCell>
+              <TableCell>{agendamiento.motivo}</TableCell>
+              <TableCell>{agendamiento.estado}</TableCell>
+              <TableCell>{agendamiento.FkId_Paciente}</TableCell>
               <TableCell align="center">
                <Fab color="success" aria-label="edit"><EditIcon /></Fab>
-               <IconButton aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
+               <IconButton onClick={() => deleteAgendamiento (agendamiento.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      </Box>
     </React.Fragment>
   );
 }

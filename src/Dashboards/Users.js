@@ -10,12 +10,13 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Title from './Title.js';
+import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export default function Users() {
-  const [listUsuarios, setListUsuarios] = useState([]);
+  const [ListUsuarios, setListUsuarios] = useState([]);
 
     useEffect(() => {
         getUsuarios();
@@ -49,6 +50,7 @@ export default function Users() {
       <Fab size="small" color="success" aria-label="add" style={{ marginBottom: '10px' }}  component={Link} to="/users/create" >
           <AddIcon />
       </Fab>
+      <Box sx={{ height: 400, width: '100%' }}>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -60,7 +62,7 @@ export default function Users() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {listUsuarios.map((usuario, index) => (
+          {ListUsuarios.map((usuario, index) => (
             <TableRow key={index}>
               <TableCell>{usuario.documento}</TableCell>
               <TableCell>{usuario.nombre}</TableCell>
@@ -74,6 +76,7 @@ export default function Users() {
           ))}
         </TableBody>
       </Table>
+      </Box>
     </React.Fragment>
   );
 }
