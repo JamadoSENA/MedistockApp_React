@@ -14,7 +14,7 @@ function Header(props) {
         <Typography
           component="h2"
           variant="h5"
-          color="inherit"
+          color="success"
           align="center"
           noWrap
           sx={{ flex: 1 }}

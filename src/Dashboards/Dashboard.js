@@ -19,6 +19,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import { Route, Routes } from 'react-router-dom';
 import Users from './Users';
 import Suppliers from './Suppliers';
+import Main from './Main';
 
 function Copyright(props) {
   return (
@@ -128,6 +129,10 @@ export default function Dashboard() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                <Typography variant="h3" gutterBottom>
+                  Bienvenido a Medistock
+                </Typography>
+                  <Main />
                 </Paper>
               </Grid>
             </Grid>

@@ -41,7 +41,7 @@ const featuredPosts = [
     date: 'Abril 05',
     description:
       'Medistock es una plataforma innovadora que gestiona eficientemente el inventario médico. Facilita la coordinación entre proveedores y centros de salud, optimizando el suministro de equipos y medicamentos esenciales.',
-    image: 'https://images.pexels.com/photos/2678059/pexels-photo-2678059.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: 'https://images.pexels.com/photos/3652103/pexels-photo-3652103.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     imageLabel: 'Image Text',
   },
   {
@@ -84,7 +84,7 @@ export default function LandingPage() {
             ))}
           </Grid>
           <Grid container spacing={5} sx={{ mt: 3 }}>
-            <Main title="Transformación Total con Medistock." posts={posts} />
+            <Main title="Transformación Total con Medistock" posts={posts} />
             <Sidebar
               title={sidebar.title}
               description={sidebar.description}

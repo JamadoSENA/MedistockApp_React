@@ -1,4 +1,7 @@
 import * as React from 'react';
+import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -48,18 +51,51 @@ export default function UserForm() {
   const handleExpirationDateChange = (event) => {
     const value = event.target.value.replace(/\D/g, ''); // Elimina todos los caracteres que no sean dígitos
     const formattedValue = value
-        .replace(/^(\d{2})(\d)/g, '$1/$2') // Añade una barra después de los primeros dos dígitos
-        .replace(/^(\d{2})\/(\d{2})(\d)/g, '$1/$2/$3') // Añade una barra después de los siguientes dos dígitos
-        .replace(/^(\d{2})\/(\d{2})\/(\d{4})\d*/, '$1/$2/$3'); // Limita el año a 4 dígitos
-    if (value.length <= 8) { // Longitud máxima de 8 caracteres (DD/MM/AAAA)
-      setExpirationDate(formattedValue);
+        .replace(/^(\d{4})(\d)/g, '$1-$2') // Añade un guión después de los primeros cuatro dígitos (AAAA)
+        .replace(/^(\d{4})-(\d{2})(\d)/g, '$1-$2-$3') // Añade un guión después de los siguientes dos dígitos (MM)
+        .replace(/^(\d{4})-(\d{2})-(\d{2})\d*/, '$1-$2-$3'); // Limita el día a dos dígitos (DD)
+    if (value.length <= 8) { // Longitud máxima de 8 caracteres (AAAA-MM-DD)
+        setExpirationDate(formattedValue);
     }
 };
 
+  let navigate = useNavigate()
+
+  const [Usuario, setUsuario] = useState ({
+
+    apellido: "",
+    contrasenia: "",
+    correo: "",
+    departamento: "",
+    direccion: "",
+    documento: "",
+    fechaNacimiento: "",
+    municipio: "",
+    nombre: "",
+    profesion: "",
+    telefono: ""
+
+  })
+
+  const{apellido,contrasenia,correo,departamento,direccion,documento,fechaNacimiento,municipio,nombre,profesion,telefono} = Usuario
+
+  const onInputChange = (e) => {
+    
+      setUsuario({...Usuario, [e.target.name]:e.target.value})
+
+  };
+
+  const onSubmit = async (e) => {
+
+      e.preventDefault();
+      axios.post("http://localhost:8086/api/usuario/create",Usuario)
+      navigate("DashboardUsers.js")
+
+  };
 
   return (
     <Stack spacing={{ xs: 5, sm: 5 }} useFlexGap>
-      <FormControl component="fieldset" fullWidth>
+      <FormControl component="fieldset" fullWidth onSubmit={onSubmit}>
         <RadioGroup
           aria-label="Payment options"
           name="paymentType"
@@ -134,8 +170,8 @@ export default function UserForm() {
                   autoComplete="documento"
                   placeholder="Numero de documento"
                   required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
+                  onChange={onInputChange} 
+                  value={documento}
                 />
               </FormGrid>
               <FormGrid sx={{ maxWidth: '20%' }}>
@@ -147,8 +183,8 @@ export default function UserForm() {
                   autoComplete="contrasenia"
                   placeholder="Contraseña"
                   required
-                  value={cvv}
-                  onChange={handleCvvChange}
+                  onChange={onInputChange} 
+                  value={contrasenia}
                 />
               </FormGrid>
             </Box>
@@ -161,6 +197,8 @@ export default function UserForm() {
                   id="card-name"
                   autoComplete="card-name"
                   placeholder="Nombre"
+                  onChange={onInputChange} 
+                  value={nombre}
                   required
                 />
               </FormGrid>
@@ -172,20 +210,22 @@ export default function UserForm() {
                   id="card-name"
                   autoComplete="card-name"
                   placeholder="Apellido"
+                  onChange={onInputChange} 
+                  value={apellido}
                   required
                 />
               </FormGrid>
               <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-expiration" required>
+                <FormLabel htmlFor="date" required>
                   Fecha de Nacimiento
                 </FormLabel>
                 <OutlinedInput
-                  id="card-expiration"
+                  id=""
                   autoComplete="card-expiration"
-                  placeholder="DD/MM/AAAA"
+                  placeholder="AAAA-MM-DD"
                   required
-                  value={expirationDate}
-                  onChange={handleExpirationDateChange}
+                  onChange={onInputChange} 
+                  value={fechaNacimiento}
                 />
               </FormGrid>
             </Box>
@@ -198,6 +238,8 @@ export default function UserForm() {
                   id="card-name"
                   autoComplete="card-name"
                   placeholder="Departamento"
+                  onChange={onInputChange} 
+                  value={departamento}
                   required
                 />
               </FormGrid>
@@ -209,6 +251,8 @@ export default function UserForm() {
                   id="card-name"
                   autoComplete="card-name"
                   placeholder="Municipio"
+                  onChange={onInputChange} 
+                  value={municipio}
                   required
                 />
               </FormGrid>
@@ -220,6 +264,8 @@ export default function UserForm() {
                   id="card-name"
                   autoComplete="card-name"
                   placeholder="Direccion"
+                  onChange={onInputChange} 
+                  value={direccion}
                   required
                 />
               </FormGrid>
@@ -233,6 +279,8 @@ export default function UserForm() {
                   id="card-name"
                   autoComplete="card-name"
                   placeholder="Profesion"
+                  onChange={onInputChange} 
+                  value={profesion}
                   required
                 />
               </FormGrid>
@@ -244,6 +292,8 @@ export default function UserForm() {
                   id="card-name"
                   autoComplete="card-name"
                   placeholder="Telefono"
+                  onChange={onInputChange} 
+                  value={telefono}
                   required
                 />
               </FormGrid>
@@ -255,28 +305,17 @@ export default function UserForm() {
                   id="card-name"
                   autoComplete="card-name"
                   placeholder="Correo electronico"
+                  onChange={onInputChange} 
+                  value={correo}
                   required
                 />
               </FormGrid>
               </Box>
               <Box sx={{ display: 'flex', gap: 2 }}>
-            <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="FkId_Proveedor" required>
-                  ID Rol
-                </FormLabel>
-                <OutlinedInput
-                  id="FkId_Proveedor"
-                  autoComplete="FkId_Proveedor"
-                  placeholder="(ID)"
-                  required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
-                />
-              </FormGrid>
               </Box>
           </Box>
           <ButtonGroup color="success" variant="text" aria-label="Basic button group">
-            <Button color="success">Guardar</Button>
+            <Button type="submit" color="success">Guardar</Button>
             <Button color="success" component={Link} to="/Users">Cancelar</Button>
           </ButtonGroup>
         </Box>

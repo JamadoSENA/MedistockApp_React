@@ -11,57 +11,36 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Title from './Title.js';
 import { Link } from 'react-router-dom';
-
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(
-    0,
-    'ID-001',
-    'Annie',
-    'Hastur',
-    'annie@example.com',
-  ),
-  createData(
-    1,
-    'ID-002',
-    'Jinx',
-    'Blabla',
-    'jinx@example.com',
-  ),
-  createData(
-    2,
-    'ID-003',
-    'Lux',
-    'Cerulean',
-    'lux@example.com',
-  ),
-  createData(
-    3,
-    'ID-004',
-    'Garen',
-    'Demacia',
-    'garen@example.com',
-  ),
-  createData(
-    4,
-    'ID-005',
-    'Ahri',
-    'Charm',
-    'ahri@example.com',
-  ),
-];
-
-
-function preventDefault(event) {
-  event.preventDefault();
-}
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 export default function Users() {
+  const [listUsuarios, setListUsuarios] = useState([]);
+
+    useEffect(() => {
+        getUsuarios();
+    }, []);
+
+    //GET ALL USERS
+    const getUsuarios = () => {
+        axios.get("http://localhost:8086/api/usuario/all")
+            .then((response) => {
+                setListUsuarios(response.data.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+    //GET ALL USERS
+
+
+    //DELETE USERS
+    const deleteUsuario = async (idUsuario) => {
+        await axios.delete(`http://localhost:8086/api/usuario/delete/${idUsuario}`)
+        getUsuarios()
+    }
+    //DELETE USERS
+
   return (
     <React.Fragment>
       <Title style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
@@ -81,15 +60,15 @@ export default function Users() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
+          {listUsuarios.map((usuario, index) => (
+            <TableRow key={index}>
+              <TableCell>{usuario.documento}</TableCell>
+              <TableCell>{usuario.nombre}</TableCell>
+              <TableCell>{usuario.apellido}</TableCell>
+              <TableCell>{usuario.correo}</TableCell>
               <TableCell align="center">
                <Fab color="success" aria-label="edit"><EditIcon /></Fab>
-               <IconButton aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
+               <IconButton onClick={() => deleteUsuario (usuario.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>
           ))}
