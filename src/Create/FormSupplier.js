@@ -104,7 +104,7 @@ const FormSupplier = () => {
           </Box>
           <Box sx={{ display: 'flex', gap: 2 }}> 
             <FormControl fullWidth>
-              <InputLabel htmlFor="nti">
+              <InputLabel htmlFor="nit">
                 NIT
               </InputLabel>
               <Input className="form-control" onChange={onInputChange} value={nit} type="number" name="nit" placeholder="Ingrese el NIT" 
@@ -162,7 +162,7 @@ const FormSupplier = () => {
         </Box>
         <ButtonGroup color="success" variant="text" aria-label="Basic button group">
           <Button type="submit" color="success" onClick={onSubmit}>Guardar</Button>
-          <Button color="success" component={Link} to="/Suppliers">Cancelar</Button>
+          <Button color="success" component={Link} to="/suppliers">Cancelar</Button>
         </ButtonGroup>
       </Box>
     </Stack>

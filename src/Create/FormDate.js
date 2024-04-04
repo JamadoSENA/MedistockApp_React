@@ -19,48 +19,41 @@ import VaccinesIcon from '@mui/icons-material/Vaccines';
 import TodayIcon from '@mui/icons-material/Today';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
+import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const FormGrid = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-}));
 
 export default function DateForm() {
-  const [paymentType, setPaymentType] = React.useState('creditCard');
-  const [cardNumber, setCardNumber] = React.useState('');
-  const [cvv, setCvv] = React.useState('');
-  const [expirationDate, setExpirationDate] = React.useState('');
+  
+  let navigate = useNavigate()
 
-  const handlePaymentTypeChange = (event) => {
-    setPaymentType(event.target.value);
-  };
+    const [Cita, setCita] = useState ({
 
-  const handleCardNumberChange = (event) => {
-    const value = event.target.value.replace(/\D/g, '');
-    const formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-    if (value.length <= 16) {
-      setCardNumber(formattedValue);
-    }
-  };
+        fecha:"",
+        diagnostico: "",
+        tratamiento:"",
+        recomendaciones:"",
+        FkId_Agendamiento:"",
+        FkId_Medico:""
 
-  const handleCvvChange = (event) => {
-    const value = event.target.value.replace(/\D/g, '');
-    if (value.length <= 3) {
-      setCvv(value);
-    }
-  };
+    })
 
-  const handleExpirationDateChange = (event) => {
-    const value = event.target.value.replace(/\D/g, ''); // Elimina todos los caracteres que no sean dígitos
-    const formattedValue = value
-        .replace(/^(\d{2})(\d)/g, '$1/$2') // Añade una barra después de los primeros dos dígitos
-        .replace(/^(\d{2})\/(\d{2})(\d)/g, '$1/$2/$3') // Añade una barra después de los siguientes dos dígitos
-        .replace(/^(\d{2})\/(\d{2})\/(\d{4})\d*/, '$1/$2/$3'); // Limita el año a 4 dígitos
-    if (value.length <= 8) { // Longitud máxima de 8 caracteres (DD/MM/AAAA)
-      setExpirationDate(formattedValue);
-    }
-};
+    const{fecha, diagnostico, tratamiento, FkId_Agendamiento, FkId_Medico} = Cita
 
+    const onInputChange = (e) => {
+       
+        setCita({...Cita, [e.target.name]:e.target.value})
+
+    };
+
+    const onSubmit = async (e) => {
+
+        e.preventDefault();
+        axios.post("http://localhost:8086/api/cita/create",Cita)
+        navigate("/dates")
+
+    };
 
   return (
     <Stack spacing={{ xs: 5, sm: 5 }} useFlexGap>
@@ -122,96 +115,48 @@ export default function DateForm() {
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography variant="subtitle2">Nueva Cita</Typography>
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-                gap: 2
-              }}
-            >
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-expiration" required>
-                  Fecha
-                </FormLabel>
-                <OutlinedInput
-                  id="card-expiration"
-                  autoComplete="card-expiration"
-                  placeholder="DD/MM/AAAA"
-                  required
-                  value={expirationDate}
-                  onChange={handleExpirationDateChange}
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Diagnostico
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Descripcion breve"
-                  required
-                />
-              </FormGrid>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Tratamiento
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Descripcion breve"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Recomendaciones
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Descripcion breve"
-                  required
-                />
-              </FormGrid>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-            <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="FkId_Agendamiento" required>
-                  ID Agendamiento
-                </FormLabel>
-                <OutlinedInput
-                  id="FkId_Agendamiento"
-                  autoComplete="FkId_Agendamiento"
-                  placeholder="(ID)"
-                  required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="FkId_Medico" required>
-                  ID Medico
-                </FormLabel>
-                <OutlinedInput
-                  id="FkId_Medico"
-                  autoComplete="FkId_Medico"
-                  placeholder="(ID)"
-                  required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
-                />
-              </FormGrid>
-              </Box>
+            <Box sx={{ display: 'flex', gap: 2 }}> 
+            <FormControl fullWidth>
+              <InputLabel htmlFor="nombre">
+                Fecha
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={fecha} type="date" name="fecha" placeholder="AAAA-MM-DD" required />
+            </FormControl>
           </Box>
-          <ButtonGroup color="success" variant="text" aria-label="Basic button group">
-            <Button color="success">Guardar</Button>
-            <Button color="success" component={Link} to="/Dates">Cancelar</Button>
-          </ButtonGroup>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="diagnostico">
+                Diagnostico
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={diagnostico} type="text" name="diagnostico" placeholder="Descripcion breve" required/>
+            </FormControl>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControl fullWidth>
+            <InputLabel htmlFor="tratamiento">
+                Tratamiento
+              </InputLabel>
+            <Input className="form-control" onChange={onInputChange} value={tratamiento} type="text" name="tratamiento" placeholder="Descripcion breve" 
+            required/>
+            </FormControl>
+            <FormControl fullWidth>
+             <InputLabel htmlFor="agendamiento">
+                ID Agendamiento
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={FkId_Agendamiento} type="number" name="FkId_Agendamiento" required/>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="medico">
+                ID Medico
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={FkId_Medico} type="number" name="FkId_Medico" required/>
+            </FormControl>
+          </Box>
+        </Box>
+        <ButtonGroup color="success" variant="text" aria-label="Basic button group">
+          <Button type="submit" color="success" onClick={onSubmit}>Guardar</Button>
+          <Button color="success" component={Link} to="/dates">Cancelar</Button>
+        </ButtonGroup>
         </Box>
       )}
     </Stack>

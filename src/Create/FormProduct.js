@@ -18,51 +18,43 @@ import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
+import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const FormGrid = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-}));
 
 export default function ProductForm() {
-  const [paymentType, setPaymentType] = React.useState('creditCard');
-  const [cardNumber, setCardNumber] = React.useState('');
-  const [cvv, setCvv] = React.useState('');
-  const [expirationDate, setExpirationDate] = React.useState('');
+  let navigate = useNavigate()
 
-  const handlePaymentTypeChange = (event) => {
-    setPaymentType(event.target.value);
-  };
+    const [Producto, setProducto] = useState ({
 
-  const handleCardNumberChange = (event) => {
-    const value = event.target.value.replace(/\D/g, '');
-    const formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-    if (value.length <= 16) {
-      setCardNumber(formattedValue);
-    }
-  };
+        nombre:"",
+        descripcion: "",
+        indicacioneUso:"",
+        fechaCaducidad:"",
+        cantidad:"",
+        estado:"",
+        FkIdProveedor:""
 
-  const handleCvvChange = (event) => {
-    const value = event.target.value.replace(/\D/g, '');
-    if (value.length <= 3) {
-      setCvv(value);
-    }
-  };
+    })
 
-  const handleExpirationDateChange = (event) => {
-    const value = event.target.value.replace(/\D/g, ''); // Elimina todos los caracteres que no sean dígitos
-    const formattedValue = value
-        .replace(/^(\d{2})(\d)/g, '$1/$2') // Añade una barra después de los primeros dos dígitos
-        .replace(/^(\d{2})\/(\d{2})(\d)/g, '$1/$2/$3') // Añade una barra después de los siguientes dos dígitos
-        .replace(/^(\d{2})\/(\d{2})\/(\d{4})\d*/, '$1/$2/$3'); // Limita el año a 4 dígitos
-    if (value.length <= 8) { // Longitud máxima de 8 caracteres (DD/MM/AAAA)
-      setExpirationDate(formattedValue);
-    }
-};
+    const{nombre, descripcion, indicacioneUso, fechaCaducidad, cantidad, estado, FkIdProveedor} = Producto
 
+    const onInputChange = (e) => {
+       
+        setProducto({...Producto, [e.target.name]:e.target.value})
 
+    };
+
+    const onSubmit = async (e) => {
+
+        e.preventDefault();
+        axios.post("http://localhost:8086/api/producto/create",Producto)
+        navigate("/products")
+
+    };
   return (
-    <Stack spacing={{ xs: 5, sm: 5 }} useFlexGap>
+    <Stack spacing={{ xs: 5, sm: 5 }} useFlexGap onSubmit={onSubmit}>
       <FormControl component="fieldset" fullWidth>
         <RadioGroup
           aria-label="Payment options"
@@ -121,116 +113,66 @@ export default function ProductForm() {
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography variant="subtitle2">Nuevo Producto</Typography>
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-                gap: 2
-              }}
-            >
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Nombre
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Nombre"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Descripcion
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Descripcion"
-                  required
-                />
-              </FormGrid>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Indicaciones de Uso
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Indicaciones de Uso"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-expiration" required>
-                  Fecha de Caducidad
-                </FormLabel>
-                <OutlinedInput
-                  id="card-expiration"
-                  autoComplete="card-expiration"
-                  placeholder="DD/MM/AAAA"
-                  required
-                  value={expirationDate}
-                  onChange={handleExpirationDateChange}
-                />
-              </FormGrid>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-                gap: 2
-              }}
-            >
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="cantidad" required>
-                  Cantidad
-                </FormLabel>
-                <OutlinedInput
-                  id="cantidad"
-                  autoComplete="cantidad"
-                  placeholder="(Unidades)"
-                  required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Estado
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="(Disponible, No Disponible)"
-                  required
-                />
-              </FormGrid>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-            <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="FkId_Proveedor" required>
-                  ID Proveedor
-                </FormLabel>
-                <OutlinedInput
-                  id="FkId_Proveedor"
-                  autoComplete="FkId_Proveedor"
-                  placeholder="(ID)"
-                  required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
-                />
-              </FormGrid>
-              </Box>
+            <Box sx={{ display: 'flex', gap: 2 }}> 
+            <FormControl fullWidth>
+              <InputLabel htmlFor="nombre">
+                Nombre
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={nombre} type="text" name="nombre" placeholder="Ingrese el nombre" required/>
+            </FormControl>
           </Box>
-          <ButtonGroup color="success" variant="text" aria-label="Basic button group">
-            <Button color="success">Guardar</Button>
-            <Button color="success"  component={Link} to="/Products">Cancelar</Button>
-          </ButtonGroup>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="descripcion">
+                Descripcion
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={descripcion} type="text" name="descripcion" placeholder="Ingrese una breve descripción" 
+              required/>
+            </FormControl>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControl fullWidth>
+            <InputLabel htmlFor="indicacionesUso">
+                Indicaciones de Uso
+              </InputLabel>
+            <Input className="form-control" onChange={onInputChange} value={indicacioneUso} type="text" name="indicacioneUso" placeholder="Ingrese un breve texto sobre las indicaciones de uso" 
+            required/>
+            </FormControl>
+            <FormControl fullWidth>
+             <InputLabel htmlFor="fechaCaducidad">
+                Fecha de Caducidad
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={fechaCaducidad} type="date" name="fechaCaducidad" placeholder="AAAA-MM-DD" 
+              required/>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="cantidad">
+                Cantidad
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={cantidad} type="number" name="cantidad" placeholder="Ingrese el numero de unidades disponibles" 
+              required/>
+            </FormControl>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControl fullWidth>
+            <InputLabel htmlFor="estado">
+                Estado
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={estado} type="text" name="estado" placeholder="Disponible - No disponible" required/>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="proveedor">
+                Proveedor
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={FkIdProveedor} type="number" name="FkIdProveedor" placeholder="Ingrese el ID del proveedor" 
+              required/>
+            </FormControl>
+          </Box>
+        </Box>
+        <ButtonGroup color="success" variant="text" aria-label="Basic button group">
+          <Button type="submit" color="success" onClick={onSubmit}>Guardar</Button>
+          <Button color="success" component={Link} to="/products">Cancelar</Button>
+        </ButtonGroup>
         </Box>
       )}
     </Stack>

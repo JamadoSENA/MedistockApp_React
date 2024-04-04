@@ -190,7 +190,7 @@ const FormUser = () => {
         </Box>
         <ButtonGroup color="success" variant="text" aria-label="Basic button group">
           <Button type="submit" color="success" onClick={onSubmit}>Guardar</Button>
-          <Button color="success" component={Link} to="/Users">Cancelar</Button>
+          <Button color="success" component={Link} to="/users">Cancelar</Button>
         </ButtonGroup>
       </Box>
     </Stack>

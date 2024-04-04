@@ -17,48 +17,48 @@ import Button from '@mui/material/Button';
 import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
+import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const FormGrid = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-}));
 
 export default function PacientForm() {
-  const [paymentType, setPaymentType] = React.useState('creditCard');
-  const [cardNumber, setCardNumber] = React.useState('');
-  const [cvv, setCvv] = React.useState('');
-  const [expirationDate, setExpirationDate] = React.useState('');
+  
+  let navigate = useNavigate()
 
-  const handlePaymentTypeChange = (event) => {
-    setPaymentType(event.target.value);
-  };
+    const [Paciente, setPaciente] = useState ({
 
-  const handleCardNumberChange = (event) => {
-    const value = event.target.value.replace(/\D/g, '');
-    const formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-    if (value.length <= 16) {
-      setCardNumber(formattedValue);
-    }
-  };
+        documento:"",
+        tipoDocumento:"",
+        genero:"",
+        nombre: "",
+        apellido: "",
+        fechaNacimiento: "",
+        edad:"",
+        departamento:"",
+        municipio:"",
+        direccion:"",
+        profesion:"",
+        telefono: "",
+        correo: ""
 
-  const handleCvvChange = (event) => {
-    const value = event.target.value.replace(/\D/g, '');
-    if (value.length <= 3) {
-      setCvv(value);
-    }
-  };
+    })
 
-  const handleExpirationDateChange = (event) => {
-    const value = event.target.value.replace(/\D/g, ''); // Elimina todos los caracteres que no sean dígitos
-    const formattedValue = value
-        .replace(/^(\d{2})(\d)/g, '$1/$2') // Añade una barra después de los primeros dos dígitos
-        .replace(/^(\d{2})\/(\d{2})(\d)/g, '$1/$2/$3') // Añade una barra después de los siguientes dos dígitos
-        .replace(/^(\d{2})\/(\d{2})\/(\d{4})\d*/, '$1/$2/$3'); // Limita el año a 4 dígitos
-    if (value.length <= 8) { // Longitud máxima de 8 caracteres (DD/MM/AAAA)
-      setExpirationDate(formattedValue);
-    }
-};
+    const{documento, tipoDocumento, genero, nombre, apellido, fechaNacimiento, edad, departamento, municipio, direccion, profesion, telefono, correo} = Paciente
 
+    const onInputChange = (e) => {
+       
+        setPaciente({...Paciente, [e.target.name]:e.target.value})
+
+    };
+
+    const onSubmit = async (e) => {
+
+        e.preventDefault();
+        axios.post("http://localhost:8086/api/paciente/create",Paciente)
+        navigate("/pacients")
+
+    };
 
   return (
     <Stack spacing={{ xs: 5, sm: 5 }} useFlexGap>
@@ -120,184 +120,109 @@ export default function PacientForm() {
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography variant="subtitle2">Nuevo Paciente</Typography>
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-                gap: 2
-              }}
-            >
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="documento" required>
-                  Documento
-                </FormLabel>
-                <OutlinedInput
-                  id="documento"
-                  autoComplete="documento"
-                  placeholder="Numero de documento"
-                  required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Tipo de Documento
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="(CC, TI, NUIP)"
-                  required
-                />
-              </FormGrid>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Nombre
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Nombre"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Apellido
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Apellido"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-expiration" required>
-                  Fecha de Nacimiento
-                </FormLabel>
-                <OutlinedInput
-                  id="card-expiration"
-                  autoComplete="card-expiration"
-                  placeholder="DD/MM/AAAA"
-                  required
-                  value={expirationDate}
-                  onChange={handleExpirationDateChange}
-                />
-              </FormGrid>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-                gap: 2
-              }}
-            >
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="edad" required>
-                  Edad
-                </FormLabel>
-                <OutlinedInput
-                  id="edad"
-                  autoComplete="edad"
-                  placeholder="(Años)"
-                  required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Genero
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="(Masculino, Femenino)"
-                  required
-                />
-              </FormGrid>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-            <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                Departamento
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Departamento"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                Municipio
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Municipio"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Direccion
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Direccion"
-                  required
-                />
-              </FormGrid>
-              </Box>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-            <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                Profesion
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Profesion"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                Telefono
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Telefono"
-                  required
-                />
-              </FormGrid>
-              <FormGrid sx={{ flexGrow: 1 }}>
-                <FormLabel htmlFor="card-name" required>
-                  Correo
-                </FormLabel>
-                <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
-                  placeholder="Correo electronico"
-                  required
-                />
-              </FormGrid>
-              </Box>
+            <Box sx={{ display: 'flex', gap: 2 }}> 
+            <FormControl fullWidth>
+              <InputLabel htmlFor="documento">
+                Documento
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={documento} type="number" name="documento" placeholder="Ingrese el número de documento" required/>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="tipoDocumento">
+                Tipo de documento
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={tipoDocumento} type="text" name="tipoDocumento" placeholder="(NUIP / CC / TI)" required/>
+            </FormControl>
           </Box>
-          <ButtonGroup color="success" variant="text" aria-label="Basic button group">
-            <Button color="success">Guardar</Button>
-            <Button color="success" component={Link} to="/Pacients">Cancelar</Button>
-          </ButtonGroup>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+          <FormControl fullWidth>
+              <InputLabel htmlFor="genero">
+                Genero
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={genero} type="text" name="genero" placeholder="(Femenino / Masculino)" required/>
+            </FormControl>
+          <FormControl fullWidth>
+              <InputLabel htmlFor="nombre">
+                Nombre
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={nombre} type="text" name="nombre" placeholder="Ingrese el nombre" 
+              required/>
+          </FormControl>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="apellido">
+                Apellido
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={apellido} type="text" name="apellido" placeholder="Ingrese el apellido" 
+              required/>
+            </FormControl>
+            <FormControl fullWidth>
+            <InputLabel htmlFor="fechaNacimiento">
+                Fecha de Nacimiento
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={fechaNacimiento} type="text" name="fechaNacimiento" placeholder="AAAA-MM-DD" 
+              required/>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="edad">
+                Edad
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={edad} type="number" name="edad" placeholder="(Años)" 
+              required/>
+            </FormControl>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControl fullWidth>
+            <InputLabel htmlFor="departamento">
+                Departamento
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={departamento} type="text" name="departamento" placeholder="Ingrese el departamento" 
+              required/>
+            </FormControl>
+            <FormControl fullWidth>
+             <InputLabel htmlFor="municipio">
+                Municipio
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={municipio} type="text" name="municipio" placeholder="Ingrese el municipio" 
+              required/>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="direccion">
+                Direccion
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={direccion} type="text" name="direccion" placeholder="Ingrese la dirección" 
+              required/>
+            </FormControl>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControl fullWidth>
+            <InputLabel htmlFor="profesion">
+                Profesion
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={profesion} type="text" name="profesion" placeholder="Ingrese la profesión" 
+              required/>
+            </FormControl>
+            <FormControl fullWidth>
+            <InputLabel htmlFor="telefono">
+                Telefono
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={telefono} type="number" name="telefono" placeholder="Ingrese el número telefónico" 
+              required/>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="correo">
+                Correo Electronico
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={correo} type="email" name="correo" placeholder="Ingrese el correo electrónico" 
+              required/>
+            </FormControl>
+          </Box>
+        </Box>
+        <ButtonGroup color="success" variant="text" aria-label="Basic button group">
+          <Button type="submit" color="success" onClick={onSubmit}>Guardar</Button>
+          <Button color="success" component={Link} to="/pacients">Cancelar</Button>
+        </ButtonGroup>
         </Box>
       )}
     </Stack>
