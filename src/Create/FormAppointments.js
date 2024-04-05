@@ -24,6 +24,8 @@ import { styled } from '@mui/system';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function AppointmentForm() {
 
@@ -38,6 +40,8 @@ export default function AppointmentForm() {
 
     })
 
+    const [alertaVisible, setAlertaVisible] = useState(false);
+
     const{fecha, motivo, estado, FkId_Paciente} = Agendamiento
 
     const onInputChange = (e) => {
@@ -47,12 +51,18 @@ export default function AppointmentForm() {
     };
 
     const onSubmit = async (e) => {
-
-        e.preventDefault();
-        axios.post("http://localhost:8086/api/agendamiento/create",Agendamiento)
-        navigate("/appointments")
-
-    };
+      e.preventDefault();
+      try {
+        await axios.post("http://localhost:8086/api/agendamiento/create", Agendamiento);
+        setAlertaVisible(true);
+        // Navega a la lista de citas después de 2 segundos
+        setTimeout(() => {
+          navigate("/appointments");
+        }, 2000);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    }; 
 
 
   return (
@@ -142,6 +152,11 @@ export default function AppointmentForm() {
           <Button color="success" component={Link} to="/appointments">Cancelar</Button>
         </ButtonGroup>
         </Box>
+        {alertaVisible && (
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+          ¡El agendamiento se guardó exitosamente!
+        </Alert>
+      )}
     </Stack>
   );
 }
