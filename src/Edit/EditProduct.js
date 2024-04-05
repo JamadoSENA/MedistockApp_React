@@ -13,10 +13,11 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems, secondaryListItems } from '../Dashboards/listItems';
-import DateForm from './FormDate';
+import { Route, Routes } from 'react-router-dom';
+import FormProduct from '../Edit/EditFormProduct';
+
 
 
 function Copyright(props) {
@@ -80,7 +81,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const defaultTheme = createTheme();
 
-export default function FormDate() {
+export default function EditFormProduct() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -127,7 +128,7 @@ export default function FormDate() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <DateForm />
+                  <FormProduct />
                 </Paper>
               </Grid>
             </Grid>

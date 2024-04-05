@@ -15,6 +15,12 @@ import PacientForm from './Create/CreatePacient.js';
 import ProductForm from './Create/CreateProduct.js';
 import AppointmentForm from './Create/CreateAppointment.js';
 import DateForm from './Create/CreateDate.js';
+import EditFormUser from './Edit/EditUser.js';
+import EditFormPacient from './Edit/EditPacient.js';
+import EditFormProduct from './Edit/EditProduct.js';
+import EditFormSupplier from './Edit/EditSupplier.js';
+import EditFormAppointment from './Edit/EditAppointment.js';
+import EditFormDate from './Edit/EditDate.js';
 import SignInSide from './LogIn/LogIn.js';
 import LandingPage from './LandingPage/LandingPage.js';
 
@@ -30,11 +36,17 @@ function App() {
           <Route path="/appointments" element={<DashboardAppointments/>} />
           <Route path="/dates" element={<DashboardDates/>} />
           <Route path="/pacients" element={<DashboardPacients/>} />
+          <Route path="/users/edit/:id" element={<EditFormUser />} />
           <Route path="/users/create" element={<UserForm />} />
+          <Route path="/suppliers/edit/:id" element={<EditFormSupplier />} />
           <Route path="/suppliers/create" element={<SupplierForm />} />
+          <Route path="/pacients/edit/:id" element={<EditFormPacient />} />
           <Route path="/pacients/create" element={<PacientForm />} />
+          <Route path="/products/edit/:id" element={<EditFormProduct />} />
           <Route path="/products/create" element={<ProductForm />} />
+          <Route path="/appointments/edit/:id" element={<EditFormAppointment />} />
           <Route path="/appointments/create" element={<AppointmentForm />} />
+          <Route path="/dates/edit/:id" element={<EditFormDate/>} />
           <Route path="/dates/create" element={<DateForm />} />
           <Route path="/login" element={<SignInSide />} />
           <Route path="/landingPage" element={<LandingPage />} />

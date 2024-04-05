@@ -69,7 +69,7 @@ export default function Appointments() {
               <TableCell>{agendamiento.estado}</TableCell>
               <TableCell>{agendamiento.FkId_Paciente}</TableCell>
               <TableCell align="center">
-               <Fab color="success" aria-label="edit"><EditIcon /></Fab>
+               <Link to = {`/appointments/edit/${agendamiento.id}`}><Fab color="success" aria-label="edit"><EditIcon /></Fab></Link>
                <IconButton onClick={() => deleteAgendamiento (agendamiento.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>

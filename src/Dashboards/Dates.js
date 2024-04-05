@@ -69,7 +69,7 @@ export default function Dates() {
               <TableCell>{cita.tratamiento}</TableCell>
               <TableCell>{cita.recomendaciones}</TableCell>
               <TableCell align="center">
-               <Fab color="success" aria-label="edit"><EditIcon /></Fab>
+              <Link to = {`/dates/edit/${cita.id}`}><Fab color="success" aria-label="edit"><EditIcon /></Fab></Link>
                <IconButton onClick={() => deleteCita (cita.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>

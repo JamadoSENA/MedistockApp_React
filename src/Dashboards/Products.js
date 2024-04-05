@@ -69,7 +69,7 @@ export default function Products() {
               <TableCell>{producto.estado}</TableCell>
               <TableCell>{producto.fechaCaducidad}</TableCell>
               <TableCell align="center">
-               <Fab color="success" aria-label="edit"><EditIcon /></Fab>
+              <Link to = {`/products/edit/${producto.id}`}><Fab color="success" aria-label="edit"><EditIcon /></Fab></Link>
                <IconButton  onClick={() => deleteProducto (producto.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>

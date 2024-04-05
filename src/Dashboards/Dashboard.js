@@ -129,7 +129,7 @@ export default function Dashboard() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                <Typography variant="h3" gutterBottom>
+                <Typography variant="h2" gutterBottom>
                   Bienvenido a Medistock
                 </Typography>
                   <Main />

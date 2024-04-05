@@ -70,7 +70,7 @@ export default function Suppliers() {
               <TableCell>{proveedor.telefono}</TableCell>
               <TableCell>{proveedor.correo}</TableCell>
               <TableCell align="center">
-               <Fab color="success" aria-label="edit"><EditIcon /></Fab>
+              <Link to = {`/suppliers/edit/${proveedor.id}`}><Fab color="success" aria-label="edit"><EditIcon /></Fab></Link>
                <IconButton onClick={() => deleteProveedor (proveedor.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>

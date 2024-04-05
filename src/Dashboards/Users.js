@@ -69,7 +69,7 @@ export default function Users() {
               <TableCell>{usuario.apellido}</TableCell>
               <TableCell>{usuario.correo}</TableCell>
               <TableCell align="center">
-               <Fab color="success" aria-label="edit"><EditIcon /></Fab>
+               <Link to = {`/users/edit/${usuario.id}`}><Fab color="success" aria-label="edit"><EditIcon /></Fab></Link>
                <IconButton onClick={() => deleteUsuario (usuario.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>

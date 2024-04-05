@@ -69,7 +69,7 @@ export default function Pacients() {
               <TableCell>{paciente.apellido}</TableCell>
               <TableCell>{paciente.correo}</TableCell>
               <TableCell align="center">
-               <Fab color="success" aria-label="edit"><EditIcon /></Fab>
+              <Link to = {`/pacients/edit/${paciente.id}`}><Fab color="success" aria-label="edit"><EditIcon /></Fab></Link>
                <IconButton onClick={() => deletePaciente (paciente.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>
               </TableCell>
             </TableRow>
