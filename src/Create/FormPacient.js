@@ -1,5 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
@@ -20,6 +22,8 @@ import { styled } from '@mui/system';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 
 
 export default function PacientForm() {
@@ -44,6 +48,8 @@ export default function PacientForm() {
 
     })
 
+    const [alertaVisible, setAlertaVisible] = useState(false);
+
     const{documento, tipoDocumento, genero, nombre, apellido, fechaNacimiento, edad, departamento, municipio, direccion, profesion, telefono, correo} = Paciente
 
     const onInputChange = (e) => {
@@ -53,39 +59,37 @@ export default function PacientForm() {
     };
 
     const onSubmit = async (e) => {
-
-        e.preventDefault();
-        axios.post("http://localhost:8086/api/paciente/create",Paciente)
-        navigate("/pacients")
-
-    };
+      e.preventDefault();
+      try {
+        await axios.post("http://localhost:8086/api/paciente/create", Paciente);
+        setAlertaVisible(true);
+        // Navega a la lista de productos después de 2 segundos
+        setTimeout(() => {
+          navigate("/pacients");
+        }, 2000);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    }; 
 
   return (
     <Stack spacing={{ xs: 5, sm: 5 }} useFlexGap>
       <FormControl component="fieldset" fullWidth>
         <RadioGroup
-          aria-label="Payment options"
-          name="paymentType"
-          value={paymentType}
-          onChange={handlePaymentTypeChange}
           sx={{
             flexDirection: { sm: 'column', md: 'row' },
             gap: 2,
           }}
         >
           <Card
-            raised={paymentType === 'creditCard'}
+
             sx={{
               maxWidth: { sm: '100%', md: '50%' },
               flexGrow: 1,
               outline: '1px solid',
-              outlineColor:
-                paymentType === 'creditCard' ? 'success.main' : 'divider',
-              backgroundColor:
-                paymentType === 'creditCard' ? 'background.default' : '',
             }}
           >
-            <CardActionArea onClick={() => setPaymentType('creditCard')}>
+            <CardActionArea>
               <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <AirlineSeatFlatIcon color="dark" fontSize="small" />
                 <Typography fontWeight="medium">Paciente</Typography>
@@ -94,7 +98,6 @@ export default function PacientForm() {
           </Card>
         </RadioGroup>
       </FormControl>
-      {paymentType === 'creditCard' && (
         <Box
           sx={{
             display: 'flex',
@@ -224,6 +227,10 @@ export default function PacientForm() {
           <Button color="success" component={Link} to="/pacients">Cancelar</Button>
         </ButtonGroup>
         </Box>
+        {alertaVisible && (
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+          ¡El paciente se guardó exitosamente!
+        </Alert>
       )}
     </Stack>
   );

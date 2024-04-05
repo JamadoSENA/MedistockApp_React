@@ -4,6 +4,8 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import Checkbox from '@mui/material/Checkbox';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import PeopleIcon from '@mui/icons-material/People';
 import FormLabel from '@mui/material/FormLabel';
@@ -22,6 +24,8 @@ import { styled } from '@mui/system';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 
 
 export default function DateForm() {
@@ -39,7 +43,9 @@ export default function DateForm() {
 
     })
 
-    const{fecha, diagnostico, tratamiento, FkId_Agendamiento, FkId_Medico} = Cita
+    const [alertaVisible, setAlertaVisible] = useState(false);
+
+    const{fecha, diagnostico, tratamiento, recomendaciones, FkId_Agendamiento, FkId_Medico} = Cita
 
     const onInputChange = (e) => {
        
@@ -48,39 +54,36 @@ export default function DateForm() {
     };
 
     const onSubmit = async (e) => {
-
-        e.preventDefault();
-        axios.post("http://localhost:8086/api/cita/create",Cita)
-        navigate("/dates")
-
-    };
+      e.preventDefault();
+      try {
+        await axios.post("http://localhost:8086/api/cita/create", Cita);
+        setAlertaVisible(true);
+        // Navega a la lista de citas después de 2 segundos
+        setTimeout(() => {
+          navigate("/dates");
+        }, 2000);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    }; 
 
   return (
     <Stack spacing={{ xs: 5, sm: 5 }} useFlexGap>
       <FormControl component="fieldset" fullWidth>
         <RadioGroup
-          aria-label="Payment options"
-          name="paymentType"
-          value={paymentType}
-          onChange={handlePaymentTypeChange}
           sx={{
             flexDirection: { sm: 'column', md: 'row' },
             gap: 2,
           }}
         >
           <Card
-            raised={paymentType === 'creditCard'}
             sx={{
               maxWidth: { sm: '100%', md: '50%' },
               flexGrow: 1,
               outline: '1px solid',
-              outlineColor:
-                paymentType === 'creditCard' ? 'success.main' : 'divider',
-              backgroundColor:
-                paymentType === 'creditCard' ? 'background.default' : '',
             }}
           >
-            <CardActionArea onClick={() => setPaymentType('creditCard')}>
+            <CardActionArea>
               <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <TodayIcon color="dark" fontSize="small" />
                 <Typography fontWeight="medium">Cita Medica</Typography>
@@ -89,7 +92,6 @@ export default function DateForm() {
           </Card>
         </RadioGroup>
       </FormControl>
-      {paymentType === 'creditCard' && (
         <Box
           sx={{
             display: 'flex',
@@ -117,10 +119,10 @@ export default function DateForm() {
             </Box>
             <Box sx={{ display: 'flex', gap: 2 }}> 
             <FormControl fullWidth>
-              <InputLabel htmlFor="nombre">
+              <InputLabel htmlFor="fecha">
                 Fecha
               </InputLabel>
-              <Input className="form-control" onChange={onInputChange} value={fecha} type="date" name="fecha" placeholder="AAAA-MM-DD" required />
+              <Input className="form-control" onChange={onInputChange} value={fecha} type="text" name="fecha" required />
             </FormControl>
           </Box>
           <Box sx={{ display: 'flex', gap: 2 }}>
@@ -130,8 +132,6 @@ export default function DateForm() {
               </InputLabel>
               <Input className="form-control" onChange={onInputChange} value={diagnostico} type="text" name="diagnostico" placeholder="Descripcion breve" required/>
             </FormControl>
-          </Box>
-          <Box sx={{ display: 'flex', gap: 2 }}>
             <FormControl fullWidth>
             <InputLabel htmlFor="tratamiento">
                 Tratamiento
@@ -139,14 +139,22 @@ export default function DateForm() {
             <Input className="form-control" onChange={onInputChange} value={tratamiento} type="text" name="tratamiento" placeholder="Descripcion breve" 
             required/>
             </FormControl>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+          <FormControl fullWidth>
+              <InputLabel htmlFor="recomendaciones">
+                Recomendaciones
+              </InputLabel>
+              <Input className="form-control" onChange={onInputChange} value={recomendaciones} type="text" name="recomendaciones" placeholder="Descripcion breve" required/>
+            </FormControl>
             <FormControl fullWidth>
-             <InputLabel htmlFor="agendamiento">
+             <InputLabel htmlFor="FkId_Agendamiento">
                 ID Agendamiento
               </InputLabel>
               <Input className="form-control" onChange={onInputChange} value={FkId_Agendamiento} type="number" name="FkId_Agendamiento" required/>
             </FormControl>
             <FormControl fullWidth>
-              <InputLabel htmlFor="medico">
+              <InputLabel htmlFor="FkId_Medico">
                 ID Medico
               </InputLabel>
               <Input className="form-control" onChange={onInputChange} value={FkId_Medico} type="number" name="FkId_Medico" required/>
@@ -158,6 +166,10 @@ export default function DateForm() {
           <Button color="success" component={Link} to="/dates">Cancelar</Button>
         </ButtonGroup>
         </Box>
+        {alertaVisible && (
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+          ¡La cita se guardó exitosamente!
+        </Alert>
       )}
     </Stack>
   );

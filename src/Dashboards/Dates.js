@@ -56,8 +56,8 @@ export default function Dates() {
           <TableRow>
             <TableCell>Fecha</TableCell>
             <TableCell>Diagnostico</TableCell>
-            <TableCell>Agendamiento</TableCell>
-            <TableCell>Medico</TableCell>
+            <TableCell>Tratamiento</TableCell>
+            <TableCell>Recomendaciones</TableCell>
             <TableCell align="center">Acciones</TableCell>
           </TableRow>
         </TableHead>
@@ -66,8 +66,8 @@ export default function Dates() {
             <TableRow key={index}>
               <TableCell>{cita.fecha}</TableCell>
               <TableCell>{cita.diagnostico}</TableCell>
-              <TableCell>{cita.FkId_Agendamiento}</TableCell>
-              <TableCell>{cita.FkId_Medico}</TableCell>
+              <TableCell>{cita.tratamiento}</TableCell>
+              <TableCell>{cita.recomendaciones}</TableCell>
               <TableCell align="center">
                <Fab color="success" aria-label="edit"><EditIcon /></Fab>
                <IconButton onClick={() => deleteCita (cita.id)} aria-label="delete" size="large"  style={{ marginLeft: '8px' }}><DeleteIcon fontSize="inherit" /></IconButton>

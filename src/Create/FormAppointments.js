@@ -1,5 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
@@ -57,28 +59,19 @@ export default function AppointmentForm() {
     <Stack spacing={{ xs: 5, sm: 5 }} useFlexGap>
       <FormControl component="fieldset" fullWidth>
         <RadioGroup
-          aria-label="Payment options"
-          name="paymentType"
-          value={paymentType}
-          onChange={handlePaymentTypeChange}
           sx={{
             flexDirection: { sm: 'column', md: 'row' },
             gap: 2,
           }}
         >
           <Card
-            raised={paymentType === 'creditCard'}
             sx={{
               maxWidth: { sm: '100%', md: '50%' },
               flexGrow: 1,
               outline: '1px solid',
-              outlineColor:
-                paymentType === 'creditCard' ? 'success.main' : 'divider',
-              backgroundColor:
-                paymentType === 'creditCard' ? 'background.default' : '',
             }}
           >
-            <CardActionArea onClick={() => setPaymentType('creditCard')}>
+            <CardActionArea>
               <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <AssignmentIcon color="dark" fontSize="small" />
                 <Typography fontWeight="medium">Agendamiento</Typography>
@@ -87,7 +80,6 @@ export default function AppointmentForm() {
           </Card>
         </RadioGroup>
       </FormControl>
-      {paymentType === 'creditCard' && (
         <Box
           sx={{
             display: 'flex',
@@ -118,30 +110,30 @@ export default function AppointmentForm() {
               <InputLabel htmlFor="fecha">
                 Fecha
               </InputLabel>
-              <Input className="form-control" onChange={onInputChange} value={fecha} type="date" name="fecha" placeholder="AAAA-MM-DD" required />
+              <Input className="form-control" onChange={onInputChange} value={fecha} type="text" name="fecha" required />
             </FormControl>
           </Box>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <FormControl fullWidth>
               <InputLabel htmlFor="motivo">
-                Diagnostico
+                Motivo
               </InputLabel>
-              <Input className="form-control" onChange={onInputChange} value={motivo} type="text" name="diagnostico" placeholder="Descripcion breve" required/>
+              <Input className="form-control" onChange={onInputChange} value={motivo} type="text" name="motivo" placeholder="Descripcion breve" required/>
             </FormControl>
           </Box>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <FormControl fullWidth>
             <InputLabel htmlFor="estado">
-                Tratamiento
+                Estado
               </InputLabel>
-            <Input className="form-control" onChange={onInputChange} value={estado} type="text" name="tratamiento" placeholder="Descripcion breve" 
+            <Input className="form-control" onChange={onInputChange} value={estado} type="text" name="estado" placeholder="Descripcion breve" 
             required/>
             </FormControl>
             <FormControl fullWidth>
              <InputLabel htmlFor="paciente">
                 ID Paciente
               </InputLabel>
-              <Input className="form-control" onChange={onInputChange} value={FkId_Paciente} type="number" name="FkId_Agendamiento" required/>
+              <Input className="form-control" onChange={onInputChange} value={FkId_Paciente} type="number" name="FkId_Paciente" required/>
             </FormControl>
           </Box>
         </Box>
@@ -150,7 +142,6 @@ export default function AppointmentForm() {
           <Button color="success" component={Link} to="/appointments">Cancelar</Button>
         </ButtonGroup>
         </Box>
-      )}
     </Stack>
   );
 }

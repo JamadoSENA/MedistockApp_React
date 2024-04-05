@@ -16,6 +16,8 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 
 
 const FormUser = () => {
@@ -35,6 +37,8 @@ const FormUser = () => {
     telefono: ""
   });
 
+  const [alertaVisible, setAlertaVisible] = useState(false);
+
   const { apellido, contrasenia, correo, departamento, direccion, documento, fechaNacimiento, municipio, nombre, profesion, telefono } = usuario;
 
   const onInputChange = (e) => {
@@ -45,17 +49,20 @@ const FormUser = () => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:8086/api/usuario/create", usuario);
-      navigate("/users");
+      setAlertaVisible(true);
+      // Navega a la lista de usuarios después de 2 segundos
+      setTimeout(() => {
+        navigate("/users");
+      }, 2000);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
-  };
-  const hasError = false;  
+  }; 
   
   return (
     
     <Stack spacing={{ xs: 5, sm: 5 }} useFlexGap onSubmit={onSubmit}>
-      <FormControl error={hasError} component="fieldset" fullWidth
+      <FormControl component="fieldset" fullWidth
       >
         <RadioGroup
           sx={{
@@ -193,6 +200,11 @@ const FormUser = () => {
           <Button color="success" component={Link} to="/users">Cancelar</Button>
         </ButtonGroup>
       </Box>
+      {alertaVisible && (
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+          ¡El usuario se guardó exitosamente!
+        </Alert>
+      )}
     </Stack>
   );
 };

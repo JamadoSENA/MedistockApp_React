@@ -17,6 +17,8 @@ import { Link } from 'react-router-dom';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import PeopleIcon from '@mui/icons-material/People';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 
 
 const FormSupplier = () => {
@@ -34,6 +36,8 @@ const FormSupplier = () => {
 
     })
 
+    const [alertaVisible, setAlertaVisible] = useState(false);
+
     const{nit, nombre, departamento, municipio, direccion, telefono, correo} = Proveedor
 
     const onInputChange = (e) => {
@@ -43,12 +47,18 @@ const FormSupplier = () => {
     };
 
     const onSubmit = async (e) => {
-
-        e.preventDefault();
-        axios.post("http://localhost:8086/api/proveedor/create",Proveedor)
-        navigate("/suppliers")
-
-  }; 
+      e.preventDefault();
+      try {
+        await axios.post("http://localhost:8086/api/proveedor/create", Proveedor);
+        setAlertaVisible(true);
+        // Navega a la lista de productos después de 2 segundos
+        setTimeout(() => {
+          navigate("/suppliers");
+        }, 2000);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    }; 
   
   return (
     
@@ -165,6 +175,11 @@ const FormSupplier = () => {
           <Button color="success" component={Link} to="/suppliers">Cancelar</Button>
         </ButtonGroup>
       </Box>
+      {alertaVisible && (
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+          ¡El proveedor se guardó exitosamente!
+        </Alert>
+      )}
     </Stack>
   );
 };
