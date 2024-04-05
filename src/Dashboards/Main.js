@@ -1,16 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
 
-const Image = styled('img')({
-  width: '50%',
-  height: '275px',
-});
 
 function SkeletonChildrenDemoA(props) {
   const { loading = false } = props;
@@ -59,41 +53,6 @@ function SkeletonChildrenDemoA(props) {
     </div>
   );
 }
-
-function SkeletonChildrenDemoB(props) {
-    const { loading = false } = props;
-  
-    return (
-      <div>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ margin: 1 }}>
-          </Box>
-          <Box sx={{ width: '100%' }}>
-            {loading ? (
-              <Skeleton width="100%">
-                <Typography>.</Typography>
-              </Skeleton>
-            ) : (
-              <Typography sx={{marginBottom: '10px'}}><Typography variant="h5" gutterBottom>
-              Gestion de Citas
-            </Typography></Typography>
-            )}
-          </Box>
-        </Box>
-        {loading ? (
-          <Skeleton variant="rectangular" width="100%">
-            <div style={{ paddingTop: '57%' }} />
-          </Skeleton>
-        ) : (
-          <Typography variant="subtitle2" gutterBottom>
-            subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-            blanditiis tenetur
-          </Typography>
-          
-        )}
-      </div>
-    );
-  }
 
 SkeletonChildrenDemoA.propTypes = {
   loading: PropTypes.bool,

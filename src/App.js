@@ -9,7 +9,6 @@ import DashboardAppointments from './Dashboards/DashboardAppointments.js';
 import DashboardDates from './Dashboards/DashboardDates.js';
 import DashboardPacients from './Dashboards/DashboardPacients.js';
 import UserForm from './Create/CreateUser.js';
-import { Create } from '@mui/icons-material';
 import SupplierForm from './Create/CreateSupplier.js';
 import PacientForm from './Create/CreatePacient.js';
 import ProductForm from './Create/CreateProduct.js';
